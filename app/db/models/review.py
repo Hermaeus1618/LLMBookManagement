@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import Column, ForeignKey, Integer, Text, DateTime, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID
@@ -32,4 +32,4 @@ class Review(Base):
     review_text = Column(Text, nullable=True)
     rating = Column(Integer, nullable=False)
 
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), nullable=False)
