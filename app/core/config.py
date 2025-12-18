@@ -1,4 +1,3 @@
-import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -32,6 +31,5 @@ class Settings(BaseSettings):
     #
     LLM_MODEL_NAME: str = "qwen3:1.7b"
     LLM_BASE_URL: str = "http://192.168.1.36:11434/"
-
 
 settings = Settings()

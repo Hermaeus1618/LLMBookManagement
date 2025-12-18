@@ -11,7 +11,6 @@ from app.services.llm_service import LLMService
 router = APIRouter()
 llm_service = LLMService()
 
-
 #
 # Get book recommendations
 #

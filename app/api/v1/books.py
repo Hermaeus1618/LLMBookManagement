@@ -10,10 +10,7 @@ from app.services.llm_service import LLMService
 from app.core.security import get_current_user_from_token
 
 router = APIRouter()
-
-
 llm_service = LLMService()
-
 
 #
 # Add a new book
@@ -29,7 +26,6 @@ async def create_book(book_in: BookCreate, db: AsyncSession = Depends(get_db), c
     await db.refresh(new_book)
     return new_book
 
-
 #
 # Retrieve all books
 #
@@ -39,7 +35,6 @@ async def get_books(db: AsyncSession = Depends(get_db), current_user: dict = Dep
     result = await db.execute(select(Book).where(Book.user_id == user_id))
     books = result.scalars().all()
     return books
-
 
 #
 # Retrieve a book by ID
@@ -52,7 +47,6 @@ async def get_book(book_id: UUID, db: AsyncSession = Depends(get_db), current_us
     if not book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found.")
     return book
-
 
 #
 # Update a book
@@ -99,7 +93,10 @@ async def generate_book_summary(book_id: UUID, db: AsyncSession = Depends(get_db
     if not book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found.")
 
-    book.summary = await llm_service.generate_summary(f"{book.title} by {book.author}")
+    if book.summary:
+        return book
+
+    book.summary = await llm_service.generate_summary(book.content)
     db.add(book)
     await db.commit()
     await db.refresh(book)

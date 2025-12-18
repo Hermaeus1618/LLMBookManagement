@@ -9,13 +9,11 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
 
-
 #
 # SQLAlchemy Base
 #
 class Base(DeclarativeBase):
     pass
-
 
 #
 # Async Engine
@@ -26,7 +24,6 @@ engine = create_async_engine(
     pool_pre_ping=True,
     future=True,
 )
-
 
 #
 # Async Session Factory
@@ -39,7 +36,6 @@ AsyncSessionLocal = async_sessionmaker(
     autocommit=False,
 )
 
-
 #
 # Dependency
 #
@@ -49,7 +45,6 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
             yield session
         finally:
             await session.close()
-
 
 #
 # DB Initialization

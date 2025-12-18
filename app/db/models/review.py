@@ -6,7 +6,6 @@ from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.session import Base
 
-
 class Review(Base):
     __tablename__ = "reviews"
 

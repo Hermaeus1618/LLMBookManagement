@@ -6,7 +6,6 @@ from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.session import Base
 
-
 class Book(Base):
     __tablename__ = "books"
 
@@ -18,6 +17,7 @@ class Book(Base):
     genre = Column(String(100), nullable=True, index=True)
     year_published = Column(Integer, nullable=True)
 
+    content = Column(Text, nullable=True)
     summary = Column(Text, nullable=True)
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

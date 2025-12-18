@@ -5,7 +5,7 @@ from typing import Optional
 from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timedelta, timezone
-from fastapi import APIRouter, Depends, HTTPException, status, Security
+from fastapi import Depends, HTTPException, status
 
 from app.db.session import get_db
 from app.db.models.user import User
@@ -55,6 +55,9 @@ def verify_token(token: str) -> dict:
     except jwt.exceptions.PyJWTError:
         raise credentials_exception
 
+#
+# User Verification
+#
 async def get_current_user(token: str = Depends(verify_token), db: AsyncSession = Depends(get_db)) -> dict:
     # Extract user ID from the token payload
     user_id = token.get("sub")
