@@ -30,10 +30,8 @@ class Settings(BaseSettings):
     #
     # LLM / AI
     #
-    LLM_PROVIDER: str = "openrouter"
-    LLM_MODEL_NAME: str = "llama-3-8b"
-    LLM_API_KEY: str = os.getenv("LLM_API_KEY", "")
-    LLM_BASE_URL: str = "https://api.openrouter.ai"
+    LLM_MODEL_NAME: str = "qwen3:1.7b"
+    LLM_BASE_URL: str = "http://192.168.1.36:11434/"
 
 
 settings = Settings()
