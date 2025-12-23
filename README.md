@@ -53,10 +53,6 @@ pip install -r requirements.txt
 
 ## Running Locally
 - Start PostgreSQL (update app/core/config.py if needed)
-- Initialize DB:
-```bash
-python -m app.db.session
-```
 
 - Run FastAPI app:
 ```bash
@@ -70,3 +66,4 @@ uvicorn app.main:app --reload
 pytest -v
 ```
 Tests cover authentication, books, and reviews, Fully async-safe.
+
