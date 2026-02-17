@@ -1,8 +1,12 @@
 import ollama
+import pydantic
 
 from app.core.config import settings
 
 llm_client=ollama.Client(settings.LLM_BASE_URL)
+
+class SummaryModel(pydantic.BaseModel):
+    summary: str = pydantic.Field(..., description="The concise summary of the provided content.")
 
 prompt_system="""
 You are a highly intelligent assistant that specializes in summarizing long texts, especially books.
@@ -38,6 +42,7 @@ class LLMService:
             {"role": "system", "content": prompt_system},
             {"role": "user", "content": prompt_user.format(text=text)}
         ]
-        result = llm_client.chat(self.model_name, messages)
+        result = llm_client.chat(self.model_name, messages, format=SummaryModel.model_json_schema())
+        output = SummaryModel.model_validate_json(result.message.content)
         
-        return result.message.content
+        return output.summary

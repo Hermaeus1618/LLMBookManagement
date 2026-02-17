@@ -40,7 +40,7 @@ async def login(user_in: UserLogin, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.username == user_in.username))
     user = result.scalars().first()
     if not user or not verify_password(user_in.password, user.hashed_password):
-        raise HTTPException(status_code=401, detail="Invalid username or password.")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password.")
 
     token = create_access_token(subject=str(user.id), role=user.role)
     return Token(access_token=token)
